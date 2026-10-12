@@ -16,19 +16,20 @@ python -m venv venv
 venv\Scripts\activate            # no Linux/macOS: source venv/bin/activate
 pip install -r requirements.txt
 
+Set-Content .env "DEBUG=True" -Encoding ascii   # no Linux/macOS: echo "DEBUG=True" > .env
+
 python manage.py migrate
 python manage.py loaddata demo   # grupos, edições, destaques e fotos de exemplo
 python manage.py createsuperuser # cria seu login do painel
-
-$env:DEBUG="True"                # no Linux/macOS: export DEBUG=True
 python manage.py runserver
 ```
 
 - Site: http://127.0.0.1:8000/
 - Painel administrativo: http://127.0.0.1:8000/admin/
 
-`DEBUG=True` é necessário para o servidor de desenvolvimento entregar o CSS, o JavaScript e o logo.
-Em produção ele fica desligado (é o padrão quando a variável não existe).
+O arquivo `.env` (ao lado do `manage.py`, fora do git) guarda as configurações de cada máquina;
+o modelo comentado está em `.env.exemplo`. No seu computador basta `DEBUG=True`. Sem ele, o site
+exige uma `SECRET_KEY` de verdade e se recusa a subir.
 
 Para rodar os testes: `python manage.py test core`
 
@@ -90,3 +91,110 @@ jornal da iam/
 │   └── static/               JavaScript e imagens
 └── arquivo/front-end-prototipo/   protótipo inicial em HTML puro, mantido só como registro
 ```
+
+## Publicando no PythonAnywhere
+
+Os caminhos abaixo usam `seunome` como nome de usuário: troque pelo seu. Os nomes de menus e as
+versões de Python disponíveis podem mudar com o tempo; use a versão mais nova oferecida (3.10 ou
+superior).
+
+### 1. Código e dependências
+
+Abra um **Bash console** (aba *Consoles*) e rode:
+
+```bash
+git clone https://github.com/Vt-L4b/iam.git
+cd ~/iam/"jornal da iam"/back-end/jornal_iam
+
+mkvirtualenv --python=python3.13 jornal   # cria e ativa o ambiente "jornal"
+pip install -r requirements.txt
+```
+
+### 2. Configuração (`.env`)
+
+```bash
+cp .env.exemplo .env
+python -c "import secrets; print(secrets.token_urlsafe(50))"   # copie a chave gerada
+nano .env
+```
+
+Preencha `SECRET_KEY` com a chave gerada e `ALLOWED_HOSTS=seunome.pythonanywhere.com`. Deixe
+`DEBUG=False`. Salve com `Ctrl+O`, `Enter`, `Ctrl+X`.
+
+### 3. Banco e arquivos estáticos
+
+```bash
+python manage.py migrate
+python manage.py collectstatic --noinput
+python manage.py createsuperuser
+```
+
+Não rode `loaddata demo` no servidor: os dados de exemplo são só para testar no computador.
+
+### 4. Aplicativo web
+
+Na aba **Web**: *Add a new web app* → *Manual configuration* (não escolha a opção "Django") →
+mesma versão de Python do ambiente. Depois, na página do app:
+
+- **Virtualenv**: `/home/seunome/.virtualenvs/jornal`
+- **Source code**: `/home/seunome/iam/jornal da iam/back-end/jornal_iam`
+- **WSGI configuration file**: clique no link, apague todo o conteúdo e coloque:
+
+  ```python
+  import os
+  import sys
+
+  caminho = '/home/seunome/iam/jornal da iam/back-end/jornal_iam'
+  if caminho not in sys.path:
+      sys.path.insert(0, caminho)
+
+  os.environ['DJANGO_SETTINGS_MODULE'] = 'jornal_iam.settings'
+
+  from django.core.wsgi import get_wsgi_application
+  application = get_wsgi_application()
+  ```
+
+- **Static files**: adicione duas linhas (repare que as pastas ficam em `back-end`, um nível
+  acima do `manage.py`):
+
+  | URL        | Directory                                            |
+  |------------|------------------------------------------------------|
+  | `/static/` | `/home/seunome/iam/jornal da iam/back-end/staticfiles` |
+  | `/media/`  | `/home/seunome/iam/jornal da iam/back-end/media`       |
+
+- **Security**: ative **Force HTTPS**.
+
+Clique em **Reload** e abra `https://seunome.pythonanywhere.com`. Se algo der errado, o motivo
+aparece no **Error log**, no fim da aba Web.
+
+### Atualizando o site depois de mudanças no código
+
+```bash
+workon jornal
+cd ~/iam/"jornal da iam"/back-end/jornal_iam
+git pull
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py collectstatic --noinput
+```
+
+E clique em **Reload** na aba Web.
+
+### Backup
+
+Tudo o que não está no git fica em dois lugares: o banco (`back-end/db.sqlite3`) e as fotos
+enviadas (`back-end/media/`). Para gerar um arquivo único e baixá-lo pela aba *Files*:
+
+```bash
+cd ~/iam/"jornal da iam"/back-end
+zip -r ~/backup-$(date +%F).zip db.sqlite3 media
+```
+
+Faça isso pelo menos a cada edição publicada.
+
+### Lembretes do plano gratuito
+
+- O app precisa ser renovado de tempos em tempos (botão na aba Web); a PythonAnywhere avisa
+  por e-mail antes de desligá-lo.
+- O espaço em disco é limitado: as dependências ocupam cerca de 70 MB, e as fotos enviadas são
+  reduzidas automaticamente para economizar o resto.
