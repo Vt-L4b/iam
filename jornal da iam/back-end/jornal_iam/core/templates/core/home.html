@@ -7,7 +7,7 @@
     {% for destaque in destaques %}
     <div class="flex-shrink-0 w-full snap-start">
         {% if destaque.edicao %}<a href="{{ destaque.edicao.get_absolute_url }}">{% endif %}
-            <img src="{{ destaque.imagem }}" class="w-full h-[300px] object-contain"
+            <img src="{{ destaque.url_da_imagem }}" class="w-full h-[300px] object-contain"
                 alt="{{ destaque.titulo|default:'Destaque' }}">
             {% if destaque.titulo %}
             <div class="text-center px-4 pt-2">
@@ -29,7 +29,7 @@
 <div class="grid grid-cols-2 gap-4 p-4 max-w-sm mx-auto">
     {% for foto in outros_grupos %}
     <button type="button" class="thumbnail h-32 rounded-lg shadow-md overflow-hidden hover:scale-105 transition">
-        <img src="{{ foto.imagem }}" class="object-contain w-full h-full"
+        <img src="{{ foto.url_da_imagem }}" class="object-contain w-full h-full"
             data-description="{{ foto.descricao }}"
             data-legenda="{% if foto.grupo %}{{ foto.grupo.nome }} · {{ foto.grupo.cidade }}/{{ foto.grupo.uf }}{% endif %}{% if foto.data %} · {{ foto.data|date:'d/m/Y' }}{% endif %}"
             alt="{% if foto.grupo %}Foto de {{ foto.grupo.nome }}{% else %}Foto de outro grupo{% endif %}">

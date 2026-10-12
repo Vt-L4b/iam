@@ -41,7 +41,20 @@ Para rodar os testes: `python manage.py test core`
 | **Destaques**    | O carrossel da página inicial. Pode apontar para a edição que conta a atividade.          |
 | **Fotos de outros grupos** | O mural de fotos da página inicial, com o grupo e a data de cada atividade.     |
 
-As imagens são cadastradas por link (URL), então não ocupam espaço no servidor.
+### Imagens
+
+Cada imagem (foto do mural, capa de edição, destaque) pode ser **enviada pelo painel** ou vir de um
+**link**. As enviadas são tratadas automaticamente:
+
+- reduzidas para no máximo 1600 px e salvas em JPEG (uma foto de celular de ~4 MB fica com algumas
+  centenas de KB);
+- giradas na posição certa;
+- **sem os metadados da foto original, incluindo a localização GPS**;
+- apagadas do disco quando são trocadas ou quando o item é excluído.
+
+Os arquivos ficam na pasta `media/` (fora do git). Em produção, o servidor precisa entregar essa pasta
+no endereço `/media/` (no PythonAnywhere: aba *Web* → *Static files*, URL `/media/` apontando para a
+pasta `media`). Inclua essa pasta nos backups junto com o banco.
 
 ### Publicando uma edição pelo Google Drive
 

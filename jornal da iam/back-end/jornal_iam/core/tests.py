@@ -1,7 +1,15 @@
-from django.test import TestCase
-from django.urls import reverse
+import shutil
+import tempfile
+from io import BytesIO
+from pathlib import Path
 
-from .models import Edicao, Grupo
+from django.core.exceptions import ValidationError
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import TestCase, override_settings
+from django.urls import reverse
+from PIL import Image
+
+from .models import Edicao, Grupo, Outros_grupos
 
 
 class LinkIncorporavelTests(TestCase):
@@ -95,3 +103,72 @@ class RestricaoPorGrupoTests(TestCase):
         resposta = self.client.get(reverse('admin:core_outros_grupos_changelist'))
         self.assertContains(resposta, "jornada diocesana")
         self.assertContains(resposta, "Oficina de cartazes")
+
+
+def foto_de_celular(largura=4000, altura=3000):
+    """JPEG grande, com metadados e marcado como 'tirado com o celular deitado' (orientação 6)."""
+    exif = Image.Exif()
+    exif[0x010F] = "Fabricante do celular"
+    exif[0x0112] = 6
+    arquivo = BytesIO()
+    Image.new('RGB', (largura, altura), 'orange').save(arquivo, 'JPEG', exif=exif)
+    return SimpleUploadedFile('IMG_0001.jpeg', arquivo.getvalue(), content_type='image/jpeg')
+
+
+class EnvioDeFotosTests(TestCase):
+    fixtures = ['demo']
+
+    def setUp(self):
+        self.pasta_media = tempfile.mkdtemp()
+        configuracao = override_settings(MEDIA_ROOT=self.pasta_media)
+        configuracao.enable()
+        self.addCleanup(configuracao.disable)
+        self.addCleanup(shutil.rmtree, self.pasta_media, ignore_errors=True)
+
+        from django.contrib.auth.models import Group, User
+        coordenador = User.objects.create_user('coord', password='x', is_staff=True)
+        coordenador.groups.add(Group.objects.get(name='Coordenadores'))
+        Grupo.objects.get(pk=1).coordenadores.add(coordenador)
+        self.client.force_login(coordenador)
+
+    def enviar(self, **extra):
+        dados = {'grupo': 1, 'foto': foto_de_celular(), 'imagem': '', 'descricao': 'Encontro', 'data': '',
+                 'ordem': 0, **extra}
+        return self.client.post(reverse('admin:core_outros_grupos_add'), dados)
+
+    def test_foto_enviada_e_reduzida_girada_e_sem_metadados(self):
+        self.enviar()
+        foto = Outros_grupos.objects.get(descricao='Encontro')
+        with Image.open(foto.foto.path) as imagem:
+            self.assertEqual(imagem.format, 'JPEG')
+            self.assertEqual(imagem.size, (1200, 1600))  # deitada 4000x3000 -> em pé, máx. 1600
+            self.assertEqual(len(imagem.getexif()), 0)
+        self.assertEqual(foto.url_da_imagem, foto.foto.url)
+        self.assertTrue(foto.foto.name.startswith('fotos/'))
+
+    def test_trocar_a_foto_apaga_o_arquivo_antigo(self):
+        self.enviar()
+        foto = Outros_grupos.objects.get(descricao='Encontro')
+        caminho_antigo = foto.foto.path
+        foto.foto = foto_de_celular(800, 600)
+        foto.save()
+        self.assertFalse(Path(caminho_antigo).exists())
+        self.assertTrue(Path(foto.foto.path).exists())
+
+    def test_apagar_o_registro_apaga_o_arquivo(self):
+        self.enviar()
+        foto = Outros_grupos.objects.get(descricao='Encontro')
+        caminho = foto.foto.path
+        foto.delete()
+        self.assertFalse(Path(caminho).exists())
+
+    def test_precisa_de_foto_ou_link(self):
+        self.enviar(foto='')
+        self.assertFalse(Outros_grupos.objects.filter(descricao='Encontro').exists())
+        with self.assertRaises(ValidationError):
+            Outros_grupos(descricao='x').full_clean()
+
+    def test_link_continua_funcionando(self):
+        foto = Outros_grupos.objects.get(pk=1)
+        self.assertFalse(foto.foto)
+        self.assertTrue(foto.url_da_imagem.startswith('https://'))

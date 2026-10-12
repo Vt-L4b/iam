@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.utils.html import format_html
+
 from .models import Grupo, Edicao, Destaques, Outros_grupos
 
 
@@ -68,6 +70,10 @@ class DestaquesAdmin(admin.ModelAdmin):
 
 @admin.register(Outros_grupos)
 class Outros_gruposAdmin(RestritoAoGrupoAdmin):
-    list_display = ['id', 'grupo', 'descricao', 'data', 'ordem']
+    list_display = ['miniatura', 'grupo', 'descricao', 'data', 'ordem']
     list_filter = ['grupo']
     ordering = ['ordem']
+
+    @admin.display(description="foto")
+    def miniatura(self, obj):
+        return format_html('<img src="{}" style="height:48px;border-radius:4px">', obj.url_da_imagem)
