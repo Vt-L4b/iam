@@ -1,119 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'core/base.html' %}
+{% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {%load static%}
-    <title>Edições</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+{% block titulo %}Edições · Jornal da IAM{% endblock %}
 
-
-    
-</head>
-<!-- <style>
-    .edition, .header, .content, img {
-    outline: 1px solid red !important;
-    }
-</style> -->
-<body class="min-h-screen flex flex-col">
-    <header class="flex justify-between items-center p-4 bg-white shadow h-32 relative">
-        <!-- Logo -->
-        <div class=" flex  items-center justify-center font-semibold text-lg bg-white">
-            <img src="{% static 'images/jornal_da_iam_logo.png' %}" class=" object-contain  md:w-64 md:h-32"
-                    alt="logo">
-        </div>
-
-
-        <!-- Botão hamburguer -->
-        <button class="md:hidden fixed top-16 right-5 text-gray-700 focus:outline-none" id="menu"
-            aria-label="Abrir menu">
-            &#9776;
-        </button>
-        <!-- Sidebar -->
-        <div id="mobile-menu"
-            class="fixed border-t overflow-hidden top-0 right-0 left-0 w-2/3 h-full bg-white shadow-md transition-all duration-500 -translate-x-full">
-            <ul class="p-4 space-y-4">
-                <li><a href="{% url 'home' %}">Início</a></li>
-                <li><a href="#">Sobre</a></li>
-                <li><a href="#">Contato</a></li>
-                <li><a href="#">Edições</a></li>
-            </ul>
-        </div>
-
-        <!-- Menu desktop (visível apenas em telas médias pra cima) -->
-        <ul class="hidden md:flex gap-4 text-gray-700 text-sm items-center">
-            <li><a href="{% url 'home' %}">Início</a></li>
-            <li><a href="#">Sobre</a></li>
-            <li><a href="#">Contato</a></li>
-            <li><a href="#">Edições</a></li>
-        </ul>
-    </header>
-    <main class="flex-grow">
+{% block conteudo %}
+<div class="space-y-4 px-4 pt-8">
     {% for edicao in edicoes %}
-        <div class="edition">
-            <div class="w-full max-w-xl mx-auto border rounded-lg overflow-hidden">
-                <!-- Cabeçalho -->
-                <div class="header bg-gray-100 px-4 py-3 cursor-pointer flex justify-between items-center">
-                    <div>
-                        <h2 class="text-base font-semibold">{{ edicao.titulo }}</h2>
-                    </div>
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="arrow w-5 h-5 text-gray-600 transform transition-transform duration-300"
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 9l-7 7-7-7" />
-                    </svg>
+    <div class="edition">
+        <div class="w-full max-w-xl mx-auto border rounded-lg overflow-hidden">
+            <!-- Cabeçalho -->
+            <button type="button" class="header w-full text-left bg-gray-100 px-4 py-3 flex justify-between items-center"
+                aria-expanded="false">
+                <div>
+                    <h2 class="text-base font-semibold">
+                        {% if edicao.numero %}Nº {{ edicao.numero }} · {% endif %}{{ edicao.titulo }}
+                    </h2>
+                    <p class="text-xs text-gray-600">
+                        {{ edicao.grupo.nome|default:"Edição geral" }} · {{ edicao.publicado_em|date:"d/m/Y" }}
+                    </p>
                 </div>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="arrow w-5 h-5 text-gray-600 transform transition-transform duration-300" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
 
-                <!-- Conteúdo -->
-                <div class="content bg-white px-4 py-3 border-t max-h-0 overflow-hidden transition-all duration-500">
-                    <div class="flex w-full h-[320px] justify-center pt-4">
-                        <img src="{{ edicao.imagem }}" class="w-[170px] h-[270px] object-contain" alt="capa">
-                    </div>
-                    <p class="text-gray-700 mb-2">{{ edicao.descricao }}</p>
-                    <div class="flex gap-2 justify-center">
-                        <a href="{{ edicao.link }}"
-                            class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-5 py-2 rounded-full transition-colors duration-200">
-                            Ler a edição completa
-                        </a>
-                    </div>
+            <!-- Conteúdo -->
+            <div class="content bg-white px-4 border-t max-h-0 overflow-hidden transition-all duration-500">
+                <div class="flex w-full h-[320px] justify-center pt-4">
+                    <img src="{{ edicao.imagem }}" class="w-[170px] h-[270px] object-contain"
+                        alt="Capa de {{ edicao.titulo }}">
+                </div>
+                <p class="text-gray-700 mb-2">{{ edicao.descricao }}</p>
+                <div class="flex gap-2 justify-center pb-4">
+                    {% if edicao.link %}
+                    <a href="{{ edicao.get_absolute_url }}"
+                        class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-5 py-2 rounded-full transition-colors duration-200">
+                        Ler a edição completa
+                    </a>
+                    {% else %}
+                    <span class="text-sm text-gray-500">Edição completa em breve</span>
+                    {% endif %}
                 </div>
             </div>
         </div>
+    </div>
+    {% empty %}
+    <p class="text-center text-gray-500 py-12">Nenhuma edição publicada ainda.</p>
     {% endfor %}
-</main>
+</div>
+{% endblock %}
 
-    <footer class="bg-gray-300 text-gray-600 py-6 mt-12">
-        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-
-            <!-- Coluna 1: Imagens -->
-            <div class="flex flex-col items-center gap-2">
-                <img src="https://app.pom.org.br/static/media/Logo_vertical_laranja.b8b0d44a.png" alt="Logo"
-                    class="w-20 h-auto" />
-                <img src="https://uniao.pom.org.br/wp-content/uploads/sites/6/2020/10/Logo-IAM-2019-Vertical.png"
-                    alt="Imagem 2" class="w-16 h-auto" />
-            </div>
-
-            <!-- Coluna 2: Contato -->
-            <div class="flex flex-col items-center gap-2">
-                <h3 class="font-semibold text-lg">Contato</h3>
-                <p>Email: <a href="mailto:contato@exemplo.com" class="underline">contato@exemplo.com</a></p>
-                <p>Telefone: (31) 99999-9999</p>
-            </div>
-
-            <!-- Coluna 3: Copyright -->
-            <div class="flex flex-col items-center gap-2 justify-center">
-                <span class="text-sm text-gray-400">© 2025 Infância e Adolescência Missionária</span>
-                <span class="text-sm text-gray-400">Todos os direitos reservados</span>
-            </div>
-
-        </div>
-    </footer>
-
-
-</body>
-    <script src="{% static 'edicoes.js' %}"></script>
-
-
-</html>
+{% block scripts %}
+<script src="{% static 'edicoes.js' %}"></script>
+{% endblock %}

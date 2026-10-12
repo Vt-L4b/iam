@@ -1,0 +1,133 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block titulo %}Sobre · Jornal da IAM{% endblock %}
+
+{% block conteudo %}
+<!-- ===== Abertura ===== -->
+<section class="max-w-3xl mx-auto px-5 pt-14 pb-8 text-center">
+    <p class="font-chewy text-3xl md:text-4xl text-gray-800">sobre o projeto</p>
+    <p class="mt-5 text-lg leading-relaxed">
+        O Jornal da IAM nasceu de uma saudade.
+        É um espaço para histórias, ideias e talentos de quem vive a missão chegarem a mais gente,
+        de formas novas.
+    </p>
+</section>
+
+<!-- ===== Quem está por trás ===== -->
+<section class="max-w-3xl mx-auto px-5 py-8">
+    <h2 class="font-chewy text-2xl text-gray-800">Quem está por trás</h2>
+    <p class="mt-3 leading-relaxed">
+        Oi, eu sou o <strong>[Seu nome]</strong>. Participei da IAM desde criança, vivi a missão
+        em Vermelho Novo (MG), estive em congressos estaduais e fui coordenador dos 12 aos 18 anos.
+    </p>
+    <p class="mt-3 leading-relaxed">
+        Depois, a rotina de adulto, o trabalho e a agenda me afastaram. Foi pensando em como voltar
+        a somar que este site surgiu.
+    </p>
+</section>
+
+<!-- ===== Trajetória ===== -->
+<section class="bg-gray-50 mt-6 py-12">
+    <div class="max-w-4xl mx-auto px-5">
+        <h2 class="font-chewy text-2xl text-gray-800 text-center">Minha caminhada na IAM</h2>
+
+        <ol class="mt-8 relative border-l-2 border-orange-300 ml-3 space-y-8">
+            <li class="ml-6">
+                <span class="absolute -left-[9px] mt-1.5 w-4 h-4 rounded-full bg-orange-400 border-2 border-white"></span>
+                <p class="font-semibold text-gray-800">Desde os 9 anos</p>
+                <p>Comecei a participar da IAM ainda criança.</p>
+            </li>
+            <li class="ml-6">
+                <span class="absolute -left-[9px] mt-1.5 w-4 h-4 rounded-full bg-orange-400 border-2 border-white"></span>
+                <p class="font-semibold text-gray-800">2017 &middot; Missão em Vermelho Novo (MG)</p>
+                <p>Vivi a missão da IAM em Vermelho Novo.</p>
+            </li>
+            <li class="ml-6">
+                <span class="absolute -left-[9px] mt-1.5 w-4 h-4 rounded-full bg-orange-400 border-2 border-white"></span>
+                <p class="font-semibold text-gray-800">Dos 12 aos 18 anos &middot; Coordenador</p>
+                <p>Seis anos coordenando o meu grupo.</p>
+            </li>
+            <li class="ml-6">
+                <span class="absolute -left-[9px] mt-1.5 w-4 h-4 rounded-full bg-orange-400 border-2 border-white"></span>
+                <p class="font-semibold text-gray-800">2018 &middot; V Congresso Estadual</p>
+                <p>Participei do quinto congresso estadual da IAM.</p>
+            </li>
+            <li class="ml-6">
+                <span class="absolute -left-[9px] mt-1.5 w-4 h-4 rounded-full bg-orange-400 border-2 border-white"></span>
+                <p class="font-semibold text-gray-800">2019 &middot; VI Congresso Estadual</p>
+                <p>E também do sexto.</p>
+            </li>
+        </ol>
+
+        <!-- FOTOS DOS CONGRESSOS -->
+        <div class="mt-12 grid sm:grid-cols-2 gap-6">
+            <figure>
+                <img src="{% static 'images/v-congresso.png' %}" class="w-full aspect-[3/2] object-cover rounded-lg shadow-md" alt="V Congresso Estadual da IAM, 2018">
+                <figcaption class="mt-2 text-sm text-gray-500 text-center">V Congresso Estadual da IAM, 2018</figcaption>
+            </figure>
+            <figure>
+                <img src="{% static 'images/vi-congresso.png' %}" class="w-full aspect-[3/2] object-cover rounded-lg shadow-md" alt="VI Congresso Estadual da IAM, 2019">
+                <figcaption class="mt-2 text-sm text-gray-500 text-center">VI Congresso Estadual da IAM, 2019</figcaption>
+            </figure>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Por que existe ===== -->
+<section class="max-w-3xl mx-auto px-5 py-12">
+    <h2 class="font-chewy text-2xl text-gray-800 text-center">Por que este site existe</h2>
+    <p class="mt-5 leading-relaxed">
+        Quando me afastei, percebi o quanto sentia falta da IAM e comecei a pensar em como voltar a
+        contribuir. Senti falta de espaços onde o que a gente vive na IAM chegasse a mais gente e em
+        mais formatos, e de abrir lugar para os talentos de cada um.
+    </p>
+    <p class="mt-4 leading-relaxed">
+        Este site é a minha resposta: um espaço para publicar e ler conteúdo feito por quem vive a
+        missão, com carinho e com o desejo de caminhar junto com a Igreja.
+    </p>
+</section>
+
+<!-- ===== O que queremos ===== -->
+<section class="max-w-5xl mx-auto px-5 pb-12">
+    <div class="grid md:grid-cols-3 gap-5">
+        <div class="rounded-xl shadow-md p-6 bg-white border border-gray-100">
+            <p class="font-chewy text-xl text-orange-600">Conteúdo de qualidade</p>
+            <p class="mt-2 text-sm leading-relaxed">Jornais e materiais acessíveis a todos, num só lugar.</p>
+        </div>
+        <div class="rounded-xl shadow-md p-6 bg-white border border-gray-100">
+            <p class="font-chewy text-xl text-orange-600">Espaço para talentos</p>
+            <p class="mt-2 text-sm leading-relaxed">Quem escreve, desenha, fotografa ou tem uma ideia pode publicar.</p>
+        </div>
+        <div class="rounded-xl shadow-md p-6 bg-white border border-gray-100">
+            <p class="font-chewy text-xl text-orange-600">Ambiente seguro</p>
+            <p class="mt-2 text-sm leading-relaxed">Pensado para crianças e adolescentes, com cuidado no que vai ao ar.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Independência ===== -->
+<section class="max-w-3xl mx-auto px-5 pb-12">
+    <div class="rounded-xl bg-orange-50 border border-orange-200 p-6">
+        <p class="font-chewy text-xl text-gray-800">Uma iniciativa independente</p>
+        <p class="mt-2 leading-relaxed">
+            O Jornal da IAM é um projeto independente, feito por um ex-coordenador, sem vínculo oficial
+            com a IAM ou com as Pontifícias Obras Missionárias, e não fala em nome deles. É feito no
+            meu tempo livre, com respeito pela caminhada da Igreja e aberto ao diálogo.
+        </p>
+    </div>
+</section>
+
+<!-- ===== Contato ===== -->
+<section id="contato" class="max-w-3xl mx-auto px-5 pb-16 text-center">
+    <h2 class="font-chewy text-2xl text-gray-800">Quer participar?</h2>
+    <p class="mt-3 leading-relaxed">
+        Se você quer publicar, tem uma sugestão ou só quer conversar, escreva para mim.
+        As publicações passam por uma revisão antes de ir ao ar.
+    </p>
+    <a href="mailto:contato@exemplo.com"
+        class="inline-block mt-5 bg-orange-500 hover:bg-orange-600 text-white font-medium px-6 py-2.5 rounded-full transition-colors duration-200">
+        contato@exemplo.com
+    </a>
+</section>
+{% endblock %}

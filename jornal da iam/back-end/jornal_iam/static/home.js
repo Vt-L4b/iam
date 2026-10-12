@@ -1,23 +1,34 @@
-    const seeMenu = document.getElementById('menu');
-    const theMenu = document.getElementById('mobile-menu')
-    console.log("JS carregado com sucesso!");
-    document.querySelectorAll('.thumbnail').forEach(img => {
-        img.addEventListener('click', () => {
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImg = document.getElementById('lightbox-img');
-            const lightboxDesc = document.getElementById('lightbox-desc');
+// Lightbox das fotos de outros grupos
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const lightboxLegenda = document.getElementById('lightbox-legenda');
+const lightboxDesc = document.getElementById('lightbox-desc');
 
-            lightboxImg.src = img.src;
-            lightboxDesc.textContent = img.getAttribute('data-description');
-            lightbox.classList.remove('hidden');
-        });
-    });
+function openLightbox(img) {
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt;
+    lightboxLegenda.textContent = img.dataset.legenda;
+    lightboxDesc.textContent = img.dataset.description;
+    lightbox.classList.remove('hidden');
+    lightbox.classList.add('flex');
+}
 
-    function closeLightbox() {
-        document.getElementById('lightbox').classList.add('hidden');
-    };
+function closeLightbox() {
+    lightbox.classList.add('hidden');
+    lightbox.classList.remove('flex');
+}
 
-    seeMenu.addEventListener('click', () => {
-        theMenu.classList.toggle('-translate-x-full')
-        theMenu.classList.toggle('translate-x-0')
-    })
+document.querySelectorAll('.thumbnail').forEach(card => {
+    card.addEventListener('click', () => openLightbox(card.querySelector('img')));
+});
+
+document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+
+// Fecha ao clicar no fundo escuro (fora da caixa branca)
+lightbox.addEventListener('click', event => {
+    if (event.target === lightbox) closeLightbox();
+});
+
+document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeLightbox();
+});

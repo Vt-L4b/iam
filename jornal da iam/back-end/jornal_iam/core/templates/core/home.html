@@ -1,131 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'core/base.html' %}
+{% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jornal da IAM </title>
-    {% load static %}
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Fredoka:wght@300..700&display=swap"
-        rel="stylesheet">
-
-
-
-    <style>
-        .font-chewy {
-            font-family: 'Chewy', sans-serif;
-        }
-    </style>
-
-</head>
-
-<body class="min-h-screen flex flex-col">
-    <main class="flex-grow">
-
-
-        <header class="flex justify-between items-center p-4 bg-white shadow h-32 relative">
-            <!-- Logo -->
-            <div class=" flex  items-center justify-center font-semibold text-lg bg-white">
-                <img src="{% static 'images/jornal_da_iam_logo.png' %}" class=" object-contain  md:w-64 md:h-32"
-                    alt="logo">
+{% block conteudo %}
+<p class="text-2xl flex items-center justify-center font-chewy pt-16">destaques</p>
+<div class="overflow-x-auto flex snap-x snap-mandatory">
+    {% for destaque in destaques %}
+    <div class="flex-shrink-0 w-full snap-start">
+        {% if destaque.edicao %}<a href="{{ destaque.edicao.get_absolute_url }}">{% endif %}
+            <img src="{{ destaque.imagem }}" class="w-full h-[300px] object-contain"
+                alt="{{ destaque.titulo|default:'Destaque' }}">
+            {% if destaque.titulo %}
+            <div class="text-center px-4 pt-2">
+                <p class="font-semibold">{{ destaque.titulo }}</p>
+                {% if destaque.descricao %}<p class="text-sm text-gray-600">{{ destaque.descricao }}</p>{% endif %}
             </div>
+            {% endif %}
+        {% if destaque.edicao %}</a>{% endif %}
+    </div>
+    {% empty %}
+    <p class="w-full text-center text-gray-500 py-12">Nenhum destaque cadastrado ainda.</p>
+    {% endfor %}
+</div>
 
+<div class="w-32 h-12 flex items-center justify-center text-gray-600 font-semibold text-lg">
+    <p>Outros Grupos</p>
+</div>
 
-            <!-- Botão hamburguer -->
-            <button class="md:hidden fixed top-16 right-5 text-gray-700 focus:outline-none" id="menu"
-                aria-label="Abrir menu">
-                &#9776;
-            </button>
-            <!-- Sidebar -->
-            <div id="mobile-menu"
-                class="fixed border-t overflow-hidden top-0 right-0 left-0 w-2/3 h-full bg-white shadow-md transition-all duration-500 -translate-x-full">
-                <ul class="p-4 space-y-4">
-                    <li><a href="{% url 'home' %}">Início</a></li>
-                    <li><a href="#">Sobre</a></li>
-                    <li><a href="#">Contato</a></li>
-                    <li><a href="{% url 'edicoes' %}">Edições</a></li>
-                </ul>
-            </div>
+<div class="grid grid-cols-2 gap-4 p-4 max-w-sm mx-auto">
+    {% for foto in outros_grupos %}
+    <button type="button" class="thumbnail h-32 rounded-lg shadow-md overflow-hidden hover:scale-105 transition">
+        <img src="{{ foto.imagem }}" class="object-contain w-full h-full"
+            data-description="{{ foto.descricao }}"
+            data-legenda="{% if foto.grupo %}{{ foto.grupo.nome }} · {{ foto.grupo.cidade }}/{{ foto.grupo.uf }}{% endif %}{% if foto.data %} · {{ foto.data|date:'d/m/Y' }}{% endif %}"
+            alt="{% if foto.grupo %}Foto de {{ foto.grupo.nome }}{% else %}Foto de outro grupo{% endif %}">
+    </button>
+    {% endfor %}
+</div>
 
-            <!-- Menu desktop (visível apenas em telas médias pra cima) -->
-            <ul class="hidden md:flex gap-4 text-gray-700 text-sm items-center">
-                <li><a href="{% url 'home' %}">Início</a></li>
-                <li><a href="#">Sobre</a></li>
-                <li><a href="#">Contato</a></li>
-                <li><a href="{% url 'edicoes' %}">Edições</a></li>
-            </ul>
+<div id="lightbox" class="hidden fixed inset-0 bg-black bg-opacity-80 items-center justify-center z-50 p-4">
+    <div class="max-w-md w-full p-4 bg-white rounded-lg text-center">
+        <img id="lightbox-img" class="mx-auto mb-4 max-h-80 object-contain" src="" alt="">
+        <p id="lightbox-legenda" class="text-sm font-semibold text-gray-800 mb-2"></p>
+        <p id="lightbox-desc" class="text-sm text-gray-700 mb-4"></p>
+        <button id="lightbox-close" class="bg-red-500 text-white px-4 py-2 rounded">Fechar</button>
+    </div>
+</div>
+{% endblock %}
 
-        </header>
-        <p class="text-2xl   flex items-center justify-center font-chewy pt-16">destaques</p>
-        <div class="overflow-x-auto flex snap-x snap-mandatory">
-            {% for destaque in destaques %}
-            <div class="flex-shrink-0 w-full h-[300px] snap-start">
-                <a href="{{ destaque.link }}">
-                    <img src="{{ destaque.imagem }}" class="w-full h-full object-contain"
-                        alt="Destaque {{ forloop.counter }}">
-                </a>
-            </div>
-            {% endfor %}
-        </div>
-
-        <div class="w-32 h-12  flex items-center justify-center text-gray-600 font-semibold text-lg">
-            <p>Outros Grupos</p>
-        </div>
-
-        <div class="flex flex-wrap justify-center gap-4 p-4 max-w-sm mx-auto">
-            {% for grupo in outros_grupos %}
-            <div class="w-1/2 h-28 rounded-lg shadow-md overflow-hidden hover:scale-105 transition">
-                <img src="{{ grupo.imagem }}" class="object-contain w-full h-full thumbnail"
-                    data-description="{{ grupo.descricao }}" alt="Descrição curta">
-            </div>
-            {% endfor %}
-        </div>
-
-
-        <div id="lightbox" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-            <div class="max-w-md w-full p-4 bg-white rounded-lg text-center">
-                <img id="lightbox-img" class="mx-auto mb-4 max-h-80 object-contain" src="" alt="">
-                <p id="lightbox-desc" class="text-sm text-gray-700 mb-4"></p>
-                <button onclick="closeLightbox()" class="bg-red-500 text-white px-4 py-2 rounded">Fechar</button>
-            </div>
-        </div>
-
-    </main>
-
-    <footer class="bg-gray-300 text-gray-600 py-6 mt-12">
-        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-
-            <!-- Coluna 1: Imagens -->
-            <div class="flex flex-col items-center gap-2">
-                <img src="https://app.pom.org.br/static/media/Logo_vertical_laranja.b8b0d44a.png" alt="Logo"
-                    class="w-20 h-auto" />
-                <img src="https://uniao.pom.org.br/wp-content/uploads/sites/6/2020/10/Logo-IAM-2019-Vertical.png"
-                    alt="Imagem 2" class="w-16 h-auto" />
-            </div>
-
-            <!-- Coluna 2: Contato -->
-            <div class="flex flex-col items-center gap-2">
-                <h3 class="font-semibold text-lg">Contato</h3>
-                <p>Email: <a href="mailto:contato@exemplo.com" class="underline">contato@exemplo.com</a></p>
-                <p>Telefone: (31) 99999-9999</p>
-            </div>
-
-            <!-- Coluna 3: Copyright -->
-            <div class="flex flex-col items-center gap-2 justify-center">
-                <span class="text-sm text-gray-400">© 2025 Infância e Adolescência Missionária</span>
-                <span class="text-sm text-gray-400">Todos os direitos reservados</span>
-            </div>
-
-        </div>
-    </footer>
-
-
-</body>
+{% block scripts %}
 <script src="{% static 'home.js' %}"></script>
-
-
-
-</html>
+{% endblock %}

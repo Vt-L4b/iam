@@ -1,0 +1,142 @@
+[
+  {
+    "model": "core.grupo",
+    "pk": 1,
+    "fields": {
+      "nome": "IAM Sementes da Missão",
+      "slug": "iam-sementes-da-missao",
+      "paroquia": "Paróquia Exemplo (fictícia)",
+      "cidade": "Belo Horizonte",
+      "uf": "MG",
+      "logo": ""
+    }
+  },
+  {
+    "model": "core.grupo",
+    "pk": 2,
+    "fields": {
+      "nome": "IAM Pequenos Missionários",
+      "slug": "iam-pequenos-missionarios",
+      "paroquia": "Comunidade Exemplo (fictícia)",
+      "cidade": "Fortaleza",
+      "uf": "CE",
+      "logo": ""
+    }
+  },
+  {
+    "model": "core.edicao",
+    "pk": 1,
+    "fields": {
+      "grupo": null,
+      "numero": 1,
+      "titulo": "Bem-vindos ao Jornal da IAM",
+      "descricao": "A primeira edição do jornal: quem somos, como nascem os grupos da IAM e o que vem por aí.",
+      "imagem": "https://iam.pom.org.br/wp-content/uploads/sites/3/2023/11/Conheca-a-IAM-2-1.png",
+      "link": "https://iam.pom.org.br/",
+      "publicado_em": "2026-09-01T10:00:00-03:00"
+    }
+  },
+  {
+    "model": "core.edicao",
+    "pk": 2,
+    "fields": {
+      "grupo": 1,
+      "numero": 2,
+      "titulo": "Encontro de setembro",
+      "descricao": "Como foi o encontro do grupo Sementes da Missão, com a oração do terço missionário e a gincana das cores dos continentes.",
+      "imagem": "https://www.paieterno.com.br/wp-content/uploads/2023/03/infancia_e_adolescencia_missionaria_180_anos.jpg",
+      "link": "",
+      "publicado_em": "2026-09-15T10:00:00-03:00"
+    }
+  },
+  {
+    "model": "core.edicao",
+    "pk": 3,
+    "fields": {
+      "grupo": null,
+      "numero": 3,
+      "titulo": "Outubro, mês missionário",
+      "descricao": "Edição especial do Mês Missionário, com notícias dos grupos e a agenda de outubro.",
+      "imagem": "https://www.arquidiocesedefortaleza.org.br/wp-content/uploads/2024/02/formato-do-site-iam.jpg",
+      "link": "",
+      "publicado_em": "2026-10-01T10:00:00-03:00"
+    }
+  },
+  {
+    "model": "core.destaques",
+    "pk": 1,
+    "fields": {
+      "titulo": "Outubro é mês missionário",
+      "descricao": "Confira a edição especial com a agenda do mês.",
+      "imagem": "https://www.arquidiocesedefortaleza.org.br/wp-content/uploads/2024/02/formato-do-site-iam.jpg",
+      "edicao": 3,
+      "ordem": 1
+    }
+  },
+  {
+    "model": "core.destaques",
+    "pk": 2,
+    "fields": {
+      "titulo": "Encontro de setembro",
+      "descricao": "Terço missionário e gincana das cores dos continentes.",
+      "imagem": "https://www.paieterno.com.br/wp-content/uploads/2023/03/infancia_e_adolescencia_missionaria_180_anos.jpg",
+      "edicao": 2,
+      "ordem": 2
+    }
+  },
+  {
+    "model": "core.destaques",
+    "pk": 3,
+    "fields": {
+      "titulo": "Conheça a IAM",
+      "descricao": "",
+      "imagem": "https://iam.pom.org.br/wp-content/uploads/sites/3/2023/11/Conheca-a-IAM-2-1.png",
+      "edicao": 1,
+      "ordem": 3
+    }
+  },
+  {
+    "model": "core.outros_grupos",
+    "pk": 1,
+    "fields": {
+      "grupo": 2,
+      "imagem": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEihU0F_gJ883fNLKQk_D85zQm1A1tN7uVQBCagsEOr8-NnZJkWtiuOXQcjvwcObWmq2YZdSVzoKdAgRu5pOs3BCW-NkkGuZ2znxnq7vKV8XmS92OiOig-TrGV6wIBXRPfGthd-SYsrhBIJR/s1600/mascotes_infancia_missionaria_globo.png",
+      "descricao": "Os mascotes da IAM visitaram o encontro dos Pequenos Missionários.",
+      "data": "2026-08-23",
+      "ordem": 1
+    }
+  },
+  {
+    "model": "core.outros_grupos",
+    "pk": 2,
+    "fields": {
+      "grupo": 2,
+      "imagem": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjs0-fmsbPlELSrwNoOxPSQtDc2u-7m78l4wvzaqxsio5ZwJBYNwzQYDTgdYgev7SzSG37bKQLP4z4QVC5J_-Qp8KkcZFdRHt0dXzqB_EmzdDuf1SG-UP_cnhDATU7I8qwKH-PTDAO6sFU/s640/mascotes_infancia_e_adolescencia_missionaria.png",
+      "descricao": "Oficina de cartazes com as cores dos cinco continentes.",
+      "data": "2026-09-06",
+      "ordem": 2
+    }
+  },
+  {
+    "model": "core.outros_grupos",
+    "pk": 3,
+    "fields": {
+      "grupo": 1,
+      "imagem": "https://iam.pom.org.br/wp-content/uploads/sites/3/2025/03/13-jornada-noticia_Easy-Resize.com_.jpg",
+      "descricao": "O grupo Sementes da Missão participou da jornada diocesana.",
+      "data": "2026-09-20",
+      "ordem": 3
+    }
+  },
+  {
+    "model": "core.outros_grupos",
+    "pk": 4,
+    "fields": {
+      "grupo": null,
+      "imagem": "https://paroquiasaogeraldo.com.br/wp-content/uploads/2019/11/Inf%C3%A2ncia-e-Adolesc%C3%AAncia-Mission%C3%A1ria-1.png",
+      "descricao": "Foto enviada por um grupo que ainda não está cadastrado na plataforma.",
+      "data": null,
+      "ordem": 4
+    }
+  }
+]

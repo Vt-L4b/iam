@@ -1,0 +1,6 @@
+{% with atual=request.resolver_match.url_name %}
+<li><a href="{% url 'home' %}" {% if atual == 'home' %}class="font-semibold text-orange-600" aria-current="page"{% endif %}>Início</a></li>
+<li><a href="{% url 'sobre' %}" {% if atual == 'sobre' %}class="font-semibold text-orange-600" aria-current="page"{% endif %}>Sobre</a></li>
+<li><a href="{% url 'sobre' %}#contato">Contato</a></li>
+<li><a href="{% url 'edicoes' %}" {% if atual == 'edicoes' or atual == 'edicao' %}class="font-semibold text-orange-600" aria-current="page"{% endif %}>Edições</a></li>
+{% endwith %}

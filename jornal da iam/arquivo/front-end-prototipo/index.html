@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jornal da IAM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Fredoka:wght@300..700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .font-chewy {
+            font-family: 'Chewy', sans-serif;
+        }
+    </style>
+
+</head>
+
+<body class="min-h-screen flex flex-col">
+    <main class="flex-grow">
+
+
+        <header class="flex justify-between items-center p-4 bg-white shadow h-32 relative">
+            <!-- Logo -->
+            <div class="flex items-center justify-center font-semibold text-lg bg-white">
+                <img src="img/jornal-da-iam-logo.png" class="object-contain w-40 h-24 md:w-64 md:h-32"
+                    alt="Jornal da IAM">
+            </div>
+
+            <!-- Botão hamburguer -->
+            <button class="md:hidden text-3xl text-gray-700 focus:outline-none" id="menu" aria-label="Abrir menu"
+                aria-controls="mobile-menu" aria-expanded="false">
+                &#9776;
+            </button>
+
+            <!-- Fundo escuro atrás do menu mobile -->
+            <div id="menu-overlay" class="hidden fixed inset-0 bg-black bg-opacity-40 z-40 md:hidden"></div>
+
+            <!-- Sidebar (abre pela direita, mesmo lado do botão) -->
+            <div id="mobile-menu"
+                class="fixed top-0 right-0 w-2/3 h-full bg-white shadow-md z-50 transition-transform duration-500 translate-x-full md:hidden">
+                <div class="flex justify-end p-4">
+                    <button id="menu-close" class="text-3xl text-gray-700" aria-label="Fechar menu">&times;</button>
+                </div>
+                <ul class="px-4 space-y-4">
+                    <li><a href="#">Início</a></li>
+                    <li><a href="#">Sobre</a></li>
+                    <li><a href="#">Contato</a></li>
+                    <li><a href="edicoes.html">Edições</a></li>
+                </ul>
+            </div>
+
+            <!-- Menu desktop (visível apenas em telas médias pra cima) -->
+            <ul class="hidden md:flex gap-4 text-gray-700 text-sm items-center">
+                <li><a href="#">Início</a></li>
+                <li><a href="#">Sobre</a></li>
+                <li><a href="#">Contato</a></li>
+                <li><a href="edicoes.html">Edições</a></li>
+            </ul>
+
+        </header>
+        <p class="text-2xl flex items-center justify-center font-chewy pt-16">destaques</p>
+        <div class="overflow-x-auto flex snap-x snap-mandatory">
+            <div class="flex-shrink-0 w-full h-[300px] snap-start"><img
+                    src="https://www.arquidiocesedefortaleza.org.br/wp-content/uploads/2024/02/formato-do-site-iam.jpg"
+                    class="w-full h-full object-contain" alt="Destaque 1"></div>
+            <div class="flex-shrink-0 w-full h-[300px] snap-start"><img
+                    src="https://www.paieterno.com.br/wp-content/uploads/2023/03/infancia_e_adolescencia_missionaria_180_anos.jpg"
+                    class="w-full h-full object-contain" alt="Infância e Adolescência Missionária: 180 anos"></div>
+            <div class="flex-shrink-0 w-full h-[300px] snap-start"><img
+                    src="https://iam.pom.org.br/wp-content/uploads/sites/3/2023/11/Conheca-a-IAM-2-1.png"
+                    class="w-full h-full object-contain" alt="Conheça a IAM"></div>
+
+        </div>
+
+        <div class="w-32 h-12 flex items-center justify-center text-gray-600 font-semibold text-lg">
+            <p>Outros Grupos</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 p-4 max-w-sm mx-auto">
+            <button type="button"
+                class="thumbnail h-32 rounded-lg shadow-md overflow-hidden hover:scale-105 transition">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEihU0F_gJ883fNLKQk_D85zQm1A1tN7uVQBCagsEOr8-NnZJkWtiuOXQcjvwcObWmq2YZdSVzoKdAgRu5pOs3BCW-NkkGuZ2znxnq7vKV8XmS92OiOig-TrGV6wIBXRPfGthd-SYsrhBIJR/s1600/mascotes_infancia_missionaria_globo.png"
+                    class="object-contain w-full h-full" data-description="" alt="Descrição curta">
+            </button>
+            <button type="button"
+                class="thumbnail h-32 rounded-lg shadow-md overflow-hidden hover:scale-105 transition">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjs0-fmsbPlELSrwNoOxPSQtDc2u-7m78l4wvzaqxsio5ZwJBYNwzQYDTgdYgev7SzSG37bKQLP4z4QVC5J_-Qp8KkcZFdRHt0dXzqB_EmzdDuf1SG-UP_cnhDATU7I8qwKH-PTDAO6sFU/s640/mascotes_infancia_e_adolescencia_missionaria.png"
+                    class="object-contain w-full h-full"
+                    data-description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem quia atque voluptatibus voluptate fugiat cum officia, libero, nulla exercitationem ex eveniet, debitis doloremque? Necessitatibus facere aspernatur doloremque dolorum error enim!"
+                    alt="Descrição curta">
+            </button>
+            <button type="button"
+                class="thumbnail h-32 rounded-lg shadow-md overflow-hidden hover:scale-105 transition">
+                <img src="https://iam.pom.org.br/wp-content/uploads/sites/3/2025/03/13-jornada-noticia_Easy-Resize.com_.jpg"
+                    class="object-contain w-full h-full"
+                    data-description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem quia atque voluptatibus voluptate fugiat cum officia, libero, nulla exercitationem ex eveniet, debitis doloremque? Necessitatibus facere aspernatur doloremque dolorum error enim!"
+                    alt="Descrição curta">
+            </button>
+            <button type="button"
+                class="thumbnail h-32 rounded-lg shadow-md overflow-hidden hover:scale-105 transition">
+                <img src="https://paroquiasaogeraldo.com.br/wp-content/uploads/2019/11/Inf%C3%A2ncia-e-Adolesc%C3%AAncia-Mission%C3%A1ria-1.png"
+                    class="object-contain w-full h-full"
+                    data-description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem quia atque voluptatibus voluptate fugiat cum officia, libero, nulla exercitationem ex eveniet, debitis doloremque? Necessitatibus facere aspernatur doloremque dolorum error enim!"
+                    alt="Descrição curta">
+            </button>
+        </div>
+
+        <div id="lightbox" class="hidden fixed inset-0 bg-black bg-opacity-80 items-center justify-center z-50 p-4">
+            <div class="max-w-md w-full p-4 bg-white rounded-lg text-center">
+                <img id="lightbox-img" class="mx-auto mb-4 max-h-80 object-contain" src="" alt="">
+                <p id="lightbox-desc" class="text-sm text-gray-700 mb-4"></p>
+                <button id="lightbox-close" class="bg-red-500 text-white px-4 py-2 rounded">Fechar</button>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-gray-300 text-gray-600 py-6 mt-12">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+
+            <!-- Coluna 1: Imagens -->
+            <div class="flex flex-col items-center gap-2">
+                <img src="https://app.pom.org.br/static/media/Logo_vertical_laranja.b8b0d44a.png" alt="Logo"
+                    class="w-20 h-auto" />
+                <img src="https://uniao.pom.org.br/wp-content/uploads/sites/6/2020/10/Logo-IAM-2019-Vertical.png"
+                    alt="Imagem 2" class="w-16 h-auto" />
+            </div>
+
+            <!-- Coluna 2: Contato -->
+            <div class="flex flex-col items-center gap-2">
+                <h3 class="font-semibold text-lg">Contato</h3>
+                <p>Email: <a href="mailto:contato@exemplo.com" class="underline">contato@exemplo.com</a></p>
+                <p>Telefone: (31) 99999-9999</p>
+            </div>
+
+            <!-- Coluna 3: Copyright -->
+            <div class="flex flex-col items-center gap-2 justify-center">
+                <span class="text-sm text-gray-400">© 2025 Infância e Adolescência Missionária</span>
+                <span class="text-sm text-gray-400">Todos os direitos reservados</span>
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        // Menu mobile
+        const seeMenu = document.getElementById('menu');
+        const theMenu = document.getElementById('mobile-menu');
+        const menuOverlay = document.getElementById('menu-overlay');
+
+        function openMenu() {
+            theMenu.classList.remove('translate-x-full');
+            menuOverlay.classList.remove('hidden');
+            seeMenu.setAttribute('aria-expanded', 'true');
+        }
+
+        function closeMenu() {
+            theMenu.classList.add('translate-x-full');
+            menuOverlay.classList.add('hidden');
+            seeMenu.setAttribute('aria-expanded', 'false');
+        }
+
+        seeMenu.addEventListener('click', openMenu);
+        document.getElementById('menu-close').addEventListener('click', closeMenu);
+        menuOverlay.addEventListener('click', closeMenu);
+        theMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+
+        // Lightbox
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxDesc = document.getElementById('lightbox-desc');
+
+        function openLightbox(img) {
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+            lightboxDesc.textContent = img.getAttribute('data-description');
+            lightbox.classList.remove('hidden');
+            lightbox.classList.add('flex');
+        }
+
+        function closeLightbox() {
+            lightbox.classList.add('hidden');
+            lightbox.classList.remove('flex');
+        }
+
+        document.querySelectorAll('.thumbnail').forEach(card => {
+            card.addEventListener('click', () => openLightbox(card.querySelector('img')));
+        });
+
+        document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+
+        // Fecha ao clicar no fundo escuro (fora da caixa branca)
+        lightbox.addEventListener('click', event => {
+            if (event.target === lightbox) closeLightbox();
+        });
+
+        // Esc fecha o que estiver aberto
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape') {
+                closeLightbox();
+                closeMenu();
+            }
+        });
+    </script>
+
+</body>
+
+</html>

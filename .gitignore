@@ -1,0 +1,10 @@
+# Banco local: o conteúdo de exemplo vem de core/fixtures/demo.json
+*.sqlite3
+
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+.env
+staticfiles/
+media/
